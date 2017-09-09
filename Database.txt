@@ -1,0 +1,37 @@
+DROP DATABASE If EXISTS CAB_SERVICE;
+CREATE DATABASE CAB_SERVICE;
+USE CAB_SERVICE;
+
+create table USERS(
+	EMAIL varchar(500) not null,
+	NAME varchar(200) not null,
+	PHONENO varchar(12) not null,
+	ADDRESS varchar(500) not null,
+	TYPE int(2) not null,
+	PASSWORD varchar(1000),
+	ACTIVE int,
+	constraint primary key(EMAIL)
+);
+
+create table VEHICLE(
+	NUMBER varchar(200) not null,
+	DRIVER_EMAIL varchar(500) not null,
+	TYPE varchar(200) not null,
+	NO_OF_SEATS varchar(200) not null,
+	constraint primary key(NUMBER),
+	Constraint foreign key(DRIVER_EMAIL) references USERS (EMAIL)
+	on update cascade on delete cascade
+);
+
+create table RESERVATION(
+	ID bigint not null AUTO_INCREMENT,
+	PASSENGER_EMAIL varchar(500) not null,
+	VEHICLE_ID varchar(200) not null,
+	START_POINT varchar(200) not null,
+	END_POINT varchar(200) not null,
+	BOOK_DATE varchar(200) not null,
+	constraint primary key(ID),
+	Constraint foreign key(PASSENGER_EMAIL) references USERS (EMAIL),
+	Constraint foreign key(VEHICLE_ID) references VEHICLE (NUMBER)
+	on update cascade on delete cascade
+);
